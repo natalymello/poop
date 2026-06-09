@@ -2,9 +2,9 @@ package petshoup;
 
 public class Gato extends Animal {
     private boolean arranhaMoveis=true;
-	Gato(String nome, int idade, boolean faminto,boolean arranhaMoveis) {
-		super(nome, idade, faminto);
-		this.arranhaMoveis=arranhaMoveis;
+	Gato(String nome, int idade, String nomeDono,String telefone) {
+		super(nome, idade,nomeDono,telefone);
+
 	}
 	@Override
 	public void emitirSom() {

@@ -1,16 +1,16 @@
 package petshoup;
 
-public class Animal {
+public abstract class Animal {
 	protected String nome;
 	protected int idade;
 	protected boolean faminto = true;
 	protected Pessoa dono = new Pessoa();
 	protected static int totalAnimais = 0;
 
-	Animal(String nome, int idade, boolean faminto) {
+	Animal(String nome, int idade, String nomeDono, String telefone) {
 		this.nome = nome;
 		this.idade = idade;
-		this.faminto = faminto;
+		dono = new Pessoa(nomeDono,telefone);
 		totalAnimais++;
 
 	}
@@ -36,7 +36,7 @@ public class Animal {
 	}
 
 	public void comer() {
-		if (this.faminto) {
+		if (this.faminto == true) {
 			System.out.println("O " + this.getNome() + " comeu!");
 			this.faminto = false;
 		} else {
@@ -52,7 +52,7 @@ public class Animal {
 	public void exibirDados() {
 		System.out.println("Nome: " + this.getNome());
 		System.out.println("Idade: " + this.getIdade());
-		System.out.println("Faminto " + this.isFaminto());
+		System.out.println("Faminto: " + this.isFaminto());
 		if (dono != null) {
 			dono.exibirInformacoes();
 		}
