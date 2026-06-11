@@ -27,8 +27,9 @@ public class Pessoa {
 		 this.nome = nome;
 		 this.telefone = telefone;
 	 }
- 	 public void exibirInformacoes(){
-		 System.out.println("Nome:"+this.nome);
-		 System.out.println("Telefone: "+ this.telefone);
+ 	 public String exibirInformacoes(){
+ 		 String DadosPessoa =
+		 ("Nome:"+this.nome+"\nTelefone: "+ this.telefone);
+ 		 return DadosPessoa;
 	 }
 }

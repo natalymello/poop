@@ -3,7 +3,7 @@ package petshoup;
 public class Cachorro extends Animal implements AtendivelNoEstetica {
 	private String raca;
 
-	Cachorro(String nome, int idade, String nomeDono, String telefone,String raca) {
+	Cachorro(String raca,String nome, int idade, String nomeDono, String telefone) {
 		super(nome, idade, nomeDono, telefone);
 		this.raca = raca;
 	}
@@ -16,9 +16,10 @@ public class Cachorro extends Animal implements AtendivelNoEstetica {
 		return raca;
 	}
 	@Override
-	public void exibirDados() {
+	public String  exibirDados() {
 		super.exibirDados();
-		System.out.println("Raça: "+ this.getRaca());
+		String DadosCachorro = ("/nRaça"+this.raca);
+		return DadosCachorro;
 	}
 	
 	@Override

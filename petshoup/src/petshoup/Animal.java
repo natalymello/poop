@@ -49,13 +49,13 @@ public abstract class Animal {
 		return faminto;
 	}
 
-	public void exibirDados() {
-		System.out.println("Nome: " + this.getNome());
-		System.out.println("Idade: " + this.getIdade());
-		System.out.println("Faminto: " + this.isFaminto());
+	public String exibirDados() {
+		String Dados = 
+		("Nome: " + this.getNome()+ "\nIdade: " + this.getIdade()+"\nFaminto: " + this.isFaminto());
 		if (dono != null) {
 			dono.exibirInformacoes();
 		}
+		return Dados;
 
 	}
 }
