@@ -1,0 +1,28 @@
+public class Pessoa {
+	private String nome;
+	private String sobrenome;
+	private String telefone;
+
+	Pessoa(){}
+
+	 public String getNome() {
+		return nome;
+	}
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+
+	 Pessoa(String nome, String telefone) {
+		 this.nome = nome;
+		 this.telefone = telefone;
+	 }
+ 	 public void exibirInformacoes(){
+		 System.out.println("Nome:"+this.nome);
+		 System.out.println("Telefone: "+ this.telefone);
+	 }
+}
