@@ -22,6 +22,10 @@ public class TelaPetShop extends JFrame {
 
 	// ── Botões ─────────────────────────────────────────────
 	private final JButton btnCadastrar = new JButton("Cadastrar");
+	private final JButton btnBuscar = new JButton("Buscar");
+	private final JButton btnAtualizar = new JButton("Atualizar");
+	private final JButton btnRemover = new JButton("Remover");
+	private final JButton btnListar = new JButton("Listar Todos");
 
 	// ── Construtor ─────────────────────────────────────────
 	public TelaPetShop() {
@@ -51,6 +55,15 @@ public class TelaPetShop extends JFrame {
 
 		painel.add(new JLabel("Nome:"));
 		painel.add(campNome);
+		painel.add(new JLabel("Raça:"));
+		painel.add(campRaca);
+		painel.add(new JLabel("Idade:"));
+		painel.add(campIdade);
+		painel.add(new JLabel("Tutor:"));
+		painel.add(campNomeDono);
+		painel.add(new JLabel("Telefone(Tutor):"));
+		painel.add(campTelefone);
+		
 
 		return painel;
 	}
@@ -69,6 +82,10 @@ public class TelaPetShop extends JFrame {
 	private JPanel criarPainelBotoes() {
 		JPanel painel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
 		painel.add(btnCadastrar);
+		painel.add(btnBuscar);
+		painel.add(btnAtualizar);
+		painel.add(btnRemover);
+		painel.add(btnListar);
 		return painel;
 	}
 
@@ -83,18 +100,20 @@ public class TelaPetShop extends JFrame {
 				int idade = Integer.parseInt(campIdade.getText().trim());
 				String nomeDono = campNomeDono.getText().trim();
 				String telefone = campTelefone.getText().trim();
+				
 
-				if (nome.isEmpty()) {
+				if (nome.isEmpty() || nomeDono.isEmpty()) {
 					exibirTexto("ERRO: O campo Nome é obrigatório.");
 					return;
 				}
-				if (raca.isEmpty())
+				if (raca.isEmpty()){
 					raca = "Indefinida";
-
-			   //if () {}
-				   
-			   
-
+				}
+				
+				if(idade<0) {
+					exibirTexto("ERRO: Insira uma idade válida.");
+					return;
+				}
 				Cachorro novo = new Cachorro(raca,nome, idade,nomeDono,telefone);
 
 				repositorio.adicionar(novo);
@@ -102,6 +121,19 @@ public class TelaPetShop extends JFrame {
 				limparCampos();
 			}
 		});
+		// ---- BUSCAR ----
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			String nome = campNome.getText().trim();
+			if(repositorio.buscarPorNome(nome) == null) {
+				exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
+			}else {
+				exibirTexto("Cachorro Encontrado: \n\n" + repositorio.buscarPorNome(nome).exibirDados());
+			}
+			
+		}});
+		
+		
 
 	}
 
@@ -116,6 +148,9 @@ public class TelaPetShop extends JFrame {
 	private void limparCampos() {
 		campNome.setText("");
 		campRaca.setText("");
+		campIdade.setText("");
+		campNomeDono.setText("");
+		campTelefone.setText("");
 		campNome.requestFocus();
 	}
 

@@ -29,7 +29,7 @@ public class Pessoa {
 	 }
  	 public String exibirInformacoes(){
  		 String DadosPessoa =
-		 ("Nome:"+this.nome+"\nTelefone: "+ this.telefone);
+		 ("\nNome(Tutor): "+this.nome+"\nTelefone: "+ this.telefone);
  		 return DadosPessoa;
 	 }
 }

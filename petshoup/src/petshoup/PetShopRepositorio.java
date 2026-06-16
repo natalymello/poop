@@ -1,6 +1,8 @@
 package petshoup;
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class PetShopRepositorio {
 	private final ArrayList<Animal> animais = new ArrayList<>();
 
@@ -9,13 +11,12 @@ public class PetShopRepositorio {
 		animais.add(a);
 	}
 
-	/**
-	 * Busca um animal pelo nome (case-insensitive).
-	 * 
-	 * @return o Animal encontrado, ou null se não existir.
-	 */
 	public Animal buscarPorNome(String nome) {
-
+		for (Animal a : animais) {
+			if (a.getNome().equals(nome)) {
+				return a;
+			}
+		}
 		return null;
 	}
 

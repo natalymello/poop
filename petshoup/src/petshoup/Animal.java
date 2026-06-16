@@ -55,7 +55,7 @@ public abstract class Animal {
 		if (dono != null) {
 			dono.exibirInformacoes();
 		}
-		return Dados;
+		return Dados+dono.exibirInformacoes();
 
 	}
 }

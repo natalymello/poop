@@ -18,8 +18,8 @@ public class Cachorro extends Animal implements AtendivelNoEstetica {
 	@Override
 	public String  exibirDados() {
 		super.exibirDados();
-		String DadosCachorro = ("/nRaça"+this.raca);
-		return DadosCachorro;
+		String DadosCachorro = ("\nRaça: "+this.raca);
+		return super.exibirDados() + DadosCachorro;
 	}
 	
 	@Override
