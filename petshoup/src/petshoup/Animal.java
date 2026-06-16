@@ -30,6 +30,21 @@ public abstract class Animal {
 	public static int getTotalAnimais() {
 		return totalAnimais;
 	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+	
+	public void setDono(Pessoa dono) {
+		this.dono = dono;
+	}
+	
+	public static void setTotalAnimais(int totalAnimais) {
+		Animal.totalAnimais = totalAnimais;
+	}
 
 	public void emitirSom() {
 		System.out.println("O Animal emitiu um som.");
@@ -59,3 +74,4 @@ public abstract class Animal {
 
 	}
 }
+

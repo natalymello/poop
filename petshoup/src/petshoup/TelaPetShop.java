@@ -26,6 +26,8 @@ public class TelaPetShop extends JFrame {
 	private final JButton btnAtualizar = new JButton("Atualizar");
 	private final JButton btnRemover = new JButton("Remover");
 	private final JButton btnListar = new JButton("Listar Todos");
+	private final JButton btnLimpar = new JButton("Limpar");
+	
 
 	// ── Construtor ─────────────────────────────────────────
 	public TelaPetShop() {
@@ -86,6 +88,8 @@ public class TelaPetShop extends JFrame {
 		painel.add(btnAtualizar);
 		painel.add(btnRemover);
 		painel.add(btnListar);
+		btnLimpar.setBackground(Color.red);
+		painel.add(btnLimpar);
 		return painel;
 	}
 
@@ -130,11 +134,42 @@ public class TelaPetShop extends JFrame {
 			}else {
 				exibirTexto("Cachorro Encontrado: \n\n" + repositorio.buscarPorNome(nome).exibirDados());
 			}
+			limparCampos();
 			
 		}});
+		// ---- LIMPAR AREA ----
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparArea();
+			}});
 		
-		
+		// ---- ATUALIZAR  ----
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exibirTexto("Você está na área de atualizações...\nInsira o nome do animal que deseja modificar. ");
+				String nome = campNome.getText().trim();
+				String raca = campRaca.getText().trim();
+				int idade = Integer.parseInt(campIdade.getText().trim());
+				String nomeDono = campNomeDono.getText().trim();
+				String telefone = campTelefone.getText().trim();
+				if(repositorio.buscarPorNome(nome) == null) {
+					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
+				}else {
+				     exibirTexto("Esse são os dados atuais do pet" + repositorio.buscarPorNome(nome).exibirDados() +"\nDigite no campo que deseja alterar");
+				     limparCampos();
+                    if(repositorio.buscarPorNome(nome).getIdade() != idade ) {
+                     repositorio.buscarPorNome(nome).setIdade(idade);
+                    return;
+                    }
+//                    if(repositorio.buscarPorNome(nome).getRaca() != raca ) {
+//                        repositorio.buscarPorNome(nome).setRaca(raca);
+//                       return;
+//                       }
 
+				};
+				
+
+			}});
 	}
 
 	// ── Métodos auxiliares ─────────────────────────────────
@@ -145,6 +180,10 @@ public class TelaPetShop extends JFrame {
 	}
 
 	/** Limpa todos os campos do formulário. */
+	private void limparArea() {
+		exibirTexto("Bem-vindo ao sistema do Pet Shop!\n"
+				+ "Preencha os campos acima e use os botões para gerenciar os pets.\n");
+	}
 	private void limparCampos() {
 		campNome.setText("");
 		campRaca.setText("");

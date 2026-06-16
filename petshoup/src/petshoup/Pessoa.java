@@ -2,7 +2,7 @@ package petshoup;
 
 public class Pessoa {
 	private String nome;
-	private String sobrenome;
+
 	private String telefone;
 
 	Pessoa(){}
@@ -12,15 +12,18 @@ public class Pessoa {
 		return nome;
 	}
 
-
-	public String getSobrenome() {
-		return sobrenome;
-	}
-
-
 	public String getTelefone() {
 		return telefone;
 	}
+	
+	 public String setNome() {
+			return nome;
+		}
+
+		public String setTelefone() {
+			return telefone;
+		}
+	
 
 
 	 Pessoa(String nome, String telefone) {
