@@ -1,9 +1,10 @@
 package petshoup;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.InputMismatchException;
 
 public class TelaPetShop extends JFrame {
 
@@ -15,7 +16,6 @@ public class TelaPetShop extends JFrame {
 	private final JTextField campIdade = new JTextField(10);
 	private final JTextField campNomeDono = new JTextField(10);
 	private final JTextField campTelefone = new JTextField(10);
-	
 
 	// ── Área de resultado ──────────────────────────────────
 	private final JTextArea areaResultado = new JTextArea(12, 50);
@@ -27,7 +27,6 @@ public class TelaPetShop extends JFrame {
 	private final JButton btnRemover = new JButton("Remover");
 	private final JButton btnListar = new JButton("Listar Todos");
 	private final JButton btnLimpar = new JButton("Limpar");
-	
 
 	// ── Construtor ─────────────────────────────────────────
 	public TelaPetShop() {
@@ -65,7 +64,6 @@ public class TelaPetShop extends JFrame {
 		painel.add(campNomeDono);
 		painel.add(new JLabel("Telefone(Tutor):"));
 		painel.add(campTelefone);
-		
 
 		return painel;
 	}
@@ -101,75 +99,101 @@ public class TelaPetShop extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String nome = campNome.getText().trim();
 				String raca = campRaca.getText().trim();
-				int idade = Integer.parseInt(campIdade.getText().trim());
 				String nomeDono = campNomeDono.getText().trim();
 				String telefone = campTelefone.getText().trim();
-				
 
-				if (nome.isEmpty() || nomeDono.isEmpty()) {
-					exibirTexto("ERRO: O campo Nome é obrigatório.");
-					return;
-				}
-				if (raca.isEmpty()){
-					raca = "Indefinida";
-				}
-				
-				if(idade<0) {
-					exibirTexto("ERRO: Insira uma idade válida.");
-					return;
-				}
-				Cachorro novo = new Cachorro(raca,nome, idade,nomeDono,telefone);
+				try {
 
-				repositorio.adicionar(novo);
-				exibirTexto("Pet cadastrado com sucesso!\n\n" + novo.exibirDados());
-				limparCampos();
+					int idade = Integer.parseInt(campIdade.getText().trim());
+
+					if (idade < 0)
+						throw new NumberFormatException();
+
+					Cachorro novo = new Cachorro(raca, nome, idade, nomeDono, telefone);
+
+					repositorio.adicionar(novo);
+					exibirTexto("Pet cadastrado com sucesso!\n\n" + novo.exibirDados());
+					limparCampos();
+				} catch (NumberFormatException a) {
+					exibirTexto("ERRO: Idade deve ser um número inteiro.");
+				}
+
 			}
 		});
 		// ---- BUSCAR ----
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			String nome = campNome.getText().trim();
-			if(repositorio.buscarPorNome(nome) == null) {
-				exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
-			}else {
-				exibirTexto("Cachorro Encontrado: \n\n" + repositorio.buscarPorNome(nome).exibirDados());
+				String nome = campNome.getText().trim();
+				if (repositorio.buscarPorNome(nome) == null) {
+					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
+				} else {
+					exibirTexto("Cachorro Encontrado: \n\n" + repositorio.buscarPorNome(nome).exibirDados());
+				}
+				limparCampos();
+
 			}
-			limparCampos();
-			
-		}});
+		});
 		// ---- LIMPAR AREA ----
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparArea();
-			}});
-		
-		// ---- ATUALIZAR  ----
-		btnAtualizar.addActionListener(new ActionListener() {
+			}
+		});
+
+		// ---- ATUALIZAR ----
+//		btnAtualizar.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				exibirTexto("Você está na área de atualizações...\nInsira o nome do animal que deseja modificar. ");
+//				String nome = campNome.getText().trim();
+//				String raca = campRaca.getText().trim();
+//				int idade = Integer.parseInt(campIdade.getText().trim());
+//				String nomeDono = campNomeDono.getText().trim();
+//				String telefone = campTelefone.getText().trim();
+//				if(repositorio.buscarPorNome(nome) == null) {
+//					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
+//				}else {
+//				     exibirTexto("Esse são os dados atuais do pet" + repositorio.buscarPorNome(nome).exibirDados() +"\nDigite no campo que deseja alterar");
+//				     limparCampos();
+//                    if(repositorio.buscarPorNome(nome).getIdade() != idade ) {
+//                     repositorio.buscarPorNome(nome).setIdade(idade);
+//                    return;
+//                    }
+////                    if(repositorio.buscarPorNome(nome).getRaca() != raca ) {
+////                        repositorio.buscarPorNome(nome).setRaca(raca);
+////                       return;
+////                       }
+//
+//				};
+//				
+//
+//			}});
+
+		// ---- REMOVER ----
+		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exibirTexto("Você está na área de atualizações...\nInsira o nome do animal que deseja modificar. ");
 				String nome = campNome.getText().trim();
-				String raca = campRaca.getText().trim();
-				int idade = Integer.parseInt(campIdade.getText().trim());
-				String nomeDono = campNomeDono.getText().trim();
-				String telefone = campTelefone.getText().trim();
-				if(repositorio.buscarPorNome(nome) == null) {
+				if (repositorio.remover(nome) == false) {
 					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
-				}else {
-				     exibirTexto("Esse são os dados atuais do pet" + repositorio.buscarPorNome(nome).exibirDados() +"\nDigite no campo que deseja alterar");
-				     limparCampos();
-                    if(repositorio.buscarPorNome(nome).getIdade() != idade ) {
-                     repositorio.buscarPorNome(nome).setIdade(idade);
-                    return;
-                    }
-//                    if(repositorio.buscarPorNome(nome).getRaca() != raca ) {
-//                        repositorio.buscarPorNome(nome).setRaca(raca);
-//                       return;
-//                       }
+				} else {
+					exibirTexto("O cachorro foi removido com sucessso!");
 
-				};
-				
+				}
+				limparCampos();
+			}
+		});
 
-			}});
+		// ---- LISTAR TODOS ----
+		btnListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String ListaDeTodos = "";
+				for (Animal a : repositorio.listarTodos()) {
+					ListaDeTodos = ListaDeTodos +"\n\n"+ a.exibirDados();
+				}
+				exibirTexto("Aqui está a lista de todos os animais cadastrados em nosso sistema:\n"+ListaDeTodos);
+
+			}
+		});
+
 	}
 
 	// ── Métodos auxiliares ─────────────────────────────────
@@ -184,6 +208,7 @@ public class TelaPetShop extends JFrame {
 		exibirTexto("Bem-vindo ao sistema do Pet Shop!\n"
 				+ "Preencha os campos acima e use os botões para gerenciar os pets.\n");
 	}
+
 	private void limparCampos() {
 		campNome.setText("");
 		campRaca.setText("");

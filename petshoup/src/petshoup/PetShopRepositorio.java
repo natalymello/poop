@@ -26,7 +26,14 @@ public class PetShopRepositorio {
 	 * @return true se encontrou e removeu, false caso contrário.
 	 */
 	public boolean remover(String nome) {
-		return true;
+		for (Animal a : animais) {
+			if (a.getNome().equals(nome)) {
+				animais.remove(a);
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	/** Retorna a lista completa de animais cadastrados (cópia defensiva). */
