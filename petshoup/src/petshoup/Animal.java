@@ -68,7 +68,7 @@ public abstract class Animal {
 		String Dados = 
 		("Nome: " + this.getNome()+ "\nIdade: " + this.getIdade()+"\nFaminto: " + this.isFaminto());
 		if (dono != null) {
-			dono.exibirInformacoes();
+		  dono.exibirInformacoes();
 		}
 		return Dados+dono.exibirInformacoes();
 

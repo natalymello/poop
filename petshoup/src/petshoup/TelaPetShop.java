@@ -130,9 +130,15 @@ public class TelaPetShop extends JFrame {
 					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
 					return;
 				} else {
-					exibirTexto("Cachorro Encontrado\n\n" + animalSelecionado.exibirDados());
-				}
-				limparCampos();
+					exibirTexto("Cachorro Encontrado!");
+				};
+				campNome.setText(animalSelecionado.getNome());
+				campIdade.setText(String.valueOf(animalSelecionado.getIdade()));
+				campNomeDono.setText(animalSelecionado.getDono().getNome());
+				campTelefone.setText(animalSelecionado.getDono().getTelefone());
+
+				if (animalSelecionado instanceof Cachorro cachorro) {
+				    campRaca.setText(cachorro.getRaca());}
 			}
 		});
 		// ---- LIMPAR AREA ----

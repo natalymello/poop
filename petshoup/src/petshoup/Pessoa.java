@@ -20,7 +20,7 @@ public class Pessoa {
 			this.nome = nome;
 		}
 
-		public void setTelefone(String Telefone) {
+		public void setTelefone(String telefone) {
 			this.telefone = telefone;
 		}
 	
