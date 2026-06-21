@@ -15,8 +15,8 @@ public class Cachorro extends Animal implements AtendivelNoEstetica {
 	public String getRaca() {
 		return raca;
 	}
-	public String setRaca(String raca) {
-		return this.raca = raca;
+	public void setRaca(String raca) {
+		 this.raca = raca;
 	}
 	@Override
 	public String  exibirDados() {

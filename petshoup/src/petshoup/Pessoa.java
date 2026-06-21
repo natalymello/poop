@@ -16,12 +16,12 @@ public class Pessoa {
 		return telefone;
 	}
 	
-	 public String setNome() {
-			return nome;
+	 public void setNome(String nome) {
+			this.nome = nome;
 		}
 
-		public String setTelefone() {
-			return telefone;
+		public void setTelefone(String Telefone) {
+			this.telefone = telefone;
 		}
 	
 

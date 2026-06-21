@@ -9,7 +9,7 @@ import java.util.InputMismatchException;
 public class TelaPetShop extends JFrame {
 
 	private final PetShopRepositorio repositorio = new PetShopRepositorio();
-
+	private Animal animalSelecionado;
 	// ── Campos do formulário ───────────────────────────────
 	private final JTextField campNome = new JTextField(10);
 	private final JTextField campRaca = new JTextField(10);
@@ -124,13 +124,15 @@ public class TelaPetShop extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nome = campNome.getText().trim();
-				if (repositorio.buscarPorNome(nome) == null) {
+				animalSelecionado = repositorio.buscarPorNome(nome);
+
+				if (animalSelecionado == null) {
 					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
+					return;
 				} else {
-					exibirTexto("Cachorro Encontrado: \n\n" + repositorio.buscarPorNome(nome).exibirDados());
+					exibirTexto("Cachorro Encontrado\n\n" + animalSelecionado.exibirDados());
 				}
 				limparCampos();
-
 			}
 		});
 		// ---- LIMPAR AREA ----
@@ -141,32 +143,38 @@ public class TelaPetShop extends JFrame {
 		});
 
 		// ---- ATUALIZAR ----
-//		btnAtualizar.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				exibirTexto("Você está na área de atualizações...\nInsira o nome do animal que deseja modificar. ");
-//				String nome = campNome.getText().trim();
-//				String raca = campRaca.getText().trim();
-//				int idade = Integer.parseInt(campIdade.getText().trim());
-//				String nomeDono = campNomeDono.getText().trim();
-//				String telefone = campTelefone.getText().trim();
-//				if(repositorio.buscarPorNome(nome) == null) {
-//					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
-//				}else {
-//				     exibirTexto("Esse são os dados atuais do pet" + repositorio.buscarPorNome(nome).exibirDados() +"\nDigite no campo que deseja alterar");
-//				     limparCampos();
-//                    if(repositorio.buscarPorNome(nome).getIdade() != idade ) {
-//                     repositorio.buscarPorNome(nome).setIdade(idade);
-//                    return;
-//                    }
-////                    if(repositorio.buscarPorNome(nome).getRaca() != raca ) {
-////                        repositorio.buscarPorNome(nome).setRaca(raca);
-////                       return;
-////                       }
-//
-//				};
-//				
-//
-//			}});
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exibirTexto("Você está na área de atualizações...\nInsira o nome do animal que deseja modificar. ");
+
+				String nome = campNome.getText().trim();
+				String raca = campRaca.getText().trim();
+				String nomeDono = campNomeDono.getText().trim();
+				String telefone = campTelefone.getText().trim();
+				int idade = Integer.parseInt(campIdade.getText().trim());
+
+				animalSelecionado = repositorio.buscarPorNome(nome);
+
+				if (animalSelecionado == null) {
+					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
+					return;
+				}
+
+				try {
+					animalSelecionado.setIdade(idade);
+					animalSelecionado.getDono().setNome(nomeDono);
+					animalSelecionado.getDono().setTelefone(telefone);
+
+					if (animalSelecionado instanceof Cachorro cachorro) {
+						cachorro.setRaca(raca);
+					}
+					exibirTexto("Dados atualizados com sucesso!\n\n" + animalSelecionado.exibirDados());
+
+				} catch (NumberFormatException ex) {
+					exibirTexto("ERRO: Idade inválida.");
+				}
+			}
+		});
 
 		// ---- REMOVER ----
 		btnRemover.addActionListener(new ActionListener() {
@@ -187,9 +195,9 @@ public class TelaPetShop extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String ListaDeTodos = "";
 				for (Animal a : repositorio.listarTodos()) {
-					ListaDeTodos = ListaDeTodos +"\n\n"+ a.exibirDados();
+					ListaDeTodos = ListaDeTodos + "\n\n" + a.exibirDados();
 				}
-				exibirTexto("Aqui está a lista de todos os animais cadastrados em nosso sistema:\n"+ListaDeTodos);
+				exibirTexto("Aqui está a lista de todos os animais cadastrados em nosso sistema:\n" + ListaDeTodos);
 
 			}
 		});
