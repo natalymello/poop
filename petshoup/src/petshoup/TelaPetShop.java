@@ -114,8 +114,8 @@ public class TelaPetShop extends JFrame {
 					repositorio.adicionar(novo);
 					exibirTexto("Pet cadastrado com sucesso!\n\n" + novo.exibirDados());
 					limparCampos();
-				} catch (NumberFormatException a) {
-					exibirTexto("ERRO: Idade deve ser um número inteiro.");
+				} catch (NumberFormatException ex) {
+					exibirTexto("ERRO: Idade deve ser inteiro.");
 				}
 
 			}
@@ -123,28 +123,23 @@ public class TelaPetShop extends JFrame {
 		// ---- BUSCAR ----
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 				String nome = campNome.getText().trim();
-				animalSelecionado = repositorio.buscarPorNome(nome);
+				Animal animal = repositorio.buscarPorNome(nome);
 
-				if (animalSelecionado == null) {
-					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
+				if (animal == null) {
+					exibirTexto("ERRO: O animal não foi encontrado/cadastrado");
 					return;
-				} else {
-					exibirTexto("Cachorro Encontrado!");
-				};
-				campNome.setText(animalSelecionado.getNome());
-				campIdade.setText(String.valueOf(animalSelecionado.getIdade()));
-				campNomeDono.setText(animalSelecionado.getDono().getNome());
-				campTelefone.setText(animalSelecionado.getDono().getTelefone());
-
-				if (animalSelecionado instanceof Cachorro cachorro) {
-				    campRaca.setText(cachorro.getRaca());}
+				}
+				exibirTexto("Cachorro Encontrado!\n\n" + animal.exibirDados());
+				limparCampos();
 			}
 		});
 		// ---- LIMPAR AREA ----
 		btnLimpar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limparArea();
+				limparCampos();
 			}
 		});
 
@@ -153,31 +148,53 @@ public class TelaPetShop extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				exibirTexto("Você está na área de atualizações...\nInsira o nome do animal que deseja modificar. ");
 
-				String nome = campNome.getText().trim();
-				String raca = campRaca.getText().trim();
-				String nomeDono = campNomeDono.getText().trim();
-				String telefone = campTelefone.getText().trim();
-				int idade = Integer.parseInt(campIdade.getText().trim());
-
-				animalSelecionado = repositorio.buscarPorNome(nome);
-
+//aqui ele faz a busca (aqui é a mesma coisa unica coisa do cadastrar oque mudou é que nao to guardando em variaveis os campos tlg)
+				
 				if (animalSelecionado == null) {
-					exibirTexto("ERRO: Cachorro não cadastrado/encontrado.");
-					return;
-				}
 
-				try {
-					animalSelecionado.setIdade(idade);
-					animalSelecionado.getDono().setNome(nomeDono);
-					animalSelecionado.getDono().setTelefone(telefone);
+					String nome = campNome.getText().trim();
+
+					animalSelecionado = repositorio.buscarPorNome(nome);
+
+					if (animalSelecionado == null) {
+						exibirTexto("ERRO: Cachorro não encontrado.");
+						return;
+					}
+//aqui ele manda pro campo as info que ja tem 
+					campIdade.setText(String.valueOf(animalSelecionado.getIdade()));
+					campNomeDono.setText(animalSelecionado.getDono().getNome());
+					campTelefone.setText(animalSelecionado.getDono().getTelefone());
 
 					if (animalSelecionado instanceof Cachorro cachorro) {
-						cachorro.setRaca(raca);
+						campRaca.setText(cachorro.getRaca());
 					}
+
+					exibirTexto("Animal encontrado!\n Edite os dados e clique em Atualizar novamente.");
+
+					return;
+				}
+// aqui ele começa a salvar as novas info
+				try {
+
+					int idade =Integer.parseInt(campIdade.getText().trim());
+					
+					if (idade < 0)
+						throw new NumberFormatException();
+					
+					animalSelecionado.setIdade(idade);
+					animalSelecionado.getDono().setNome(campNomeDono.getText().trim());
+					animalSelecionado.getDono().setTelefone(campTelefone.getText().trim());
+
+					if (animalSelecionado instanceof Cachorro cachorro) {
+						cachorro.setRaca(campRaca.getText().trim());
+					}
+
 					exibirTexto("Dados atualizados com sucesso!\n\n" + animalSelecionado.exibirDados());
+					animalSelecionado = null;
+					limparCampos();
 
 				} catch (NumberFormatException ex) {
-					exibirTexto("ERRO: Idade inválida.");
+					exibirTexto("ERRO: Idade inválida, digite apenas números inteiros para a idade");
 				}
 			}
 		});
