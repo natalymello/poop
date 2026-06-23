@@ -16,6 +16,21 @@ public class Pessoa {
 		return telefone;
 	}
 	
+	public void atualizarPessoa(String novoNome,String novoTelefone) {
+		if(novoNome==nome) {
+			
+		}else {
+			this.nome=novoNome;
+		}
+		if(novoTelefone==null) {
+			
+		}else {
+			this.telefone=novoTelefone;
+		}
+		return;
+		
+	}
+	
 	 public void setNome(String nome) {
 			this.nome = nome;
 		}

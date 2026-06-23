@@ -15,6 +15,19 @@ public class Cachorro extends Animal implements AtendivelNoEstetica {
 	public String getRaca() {
 		return raca;
 	}
+	
+	
+	public void renovarInfo(int idade,String novoNomeDono,String novoTelefone,String novaRaca) {
+		super.renovarInfo(idade, novoNomeDono, novoTelefone);
+		if(novaRaca==raca) {
+			
+		}else {
+			this.raca=novaRaca;
+		}
+	
+	}
+	
+	
 	public void setRaca(String raca) {
 		 this.raca = raca;
 	}

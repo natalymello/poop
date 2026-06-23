@@ -30,6 +30,17 @@ public abstract class Animal {
 	public static int getTotalAnimais() {
 		return totalAnimais;
 	}
+	
+	
+	public void renovarInfo(int novaIdade,String novoNomeDono,String novoTelefone) {
+		dono.atualizarPessoa(novoNomeDono, novoTelefone);
+		if(novaIdade==idade) {
+			
+		}else {
+			this.idade=novaIdade;
+		}
+		
+	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}

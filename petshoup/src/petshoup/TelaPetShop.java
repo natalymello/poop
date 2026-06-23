@@ -115,7 +115,7 @@ public class TelaPetShop extends JFrame {
 					exibirTexto("Pet cadastrado com sucesso!\n\n" + novo.exibirDados());
 					limparCampos();
 				} catch (NumberFormatException ex) {
-					exibirTexto("ERRO: Idade deve ser inteiro.");
+					exibirTexto("ERRO: Idade deve ser inteiro e positivo.");
 				}
 
 			}
@@ -149,7 +149,7 @@ public class TelaPetShop extends JFrame {
 				exibirTexto("Você está na área de atualizações...\nInsira o nome do animal que deseja modificar. ");
 
 //aqui ele faz a busca (aqui é a mesma coisa unica coisa do cadastrar oque mudou é que nao to guardando em variaveis os campos tlg)
-				
+
 				if (animalSelecionado == null) {
 
 					String nome = campNome.getText().trim();
@@ -176,14 +176,15 @@ public class TelaPetShop extends JFrame {
 // aqui ele começa a salvar as novas info
 				try {
 
-					int idade =Integer.parseInt(campIdade.getText().trim());
-					
-					if (idade < 0)
+					int novaIdade = Integer.parseInt(campIdade.getText().trim());
+
+					if (novaIdade < 0)
 						throw new NumberFormatException();
-					
-					animalSelecionado.setIdade(idade);
-					animalSelecionado.getDono().setNome(campNomeDono.getText().trim());
-					animalSelecionado.getDono().setTelefone(campTelefone.getText().trim());
+
+					String novoNomeDono = campNomeDono.getText().trim();
+					String novoTelefone = campTelefone.getText().trim();
+
+					animalSelecionado.renovarInfo(novaIdade, novoNomeDono, novoTelefone);
 
 					if (animalSelecionado instanceof Cachorro cachorro) {
 						cachorro.setRaca(campRaca.getText().trim());
